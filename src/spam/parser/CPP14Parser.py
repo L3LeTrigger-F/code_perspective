@@ -1406,6 +1406,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTranslationUnit" ):
                 listener.exitTranslationUnit(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTranslationUnit" ):
+                return visitor.visitTranslationUnit(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1480,6 +1486,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPrimaryExpression" ):
                 listener.exitPrimaryExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimaryExpression" ):
+                return visitor.visitPrimaryExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1571,6 +1583,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitIdExpression" ):
                 listener.exitIdExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdExpression" ):
+                return visitor.visitIdExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1651,6 +1669,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUnqualifiedId" ):
                 listener.exitUnqualifiedId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnqualifiedId" ):
+                return visitor.visitUnqualifiedId(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1752,6 +1776,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitQualifiedId" ):
                 listener.exitQualifiedId(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQualifiedId" ):
+                return visitor.visitQualifiedId(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1829,6 +1859,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNestedNameSpecifier" ):
                 listener.exitNestedNameSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNestedNameSpecifier" ):
+                return visitor.visitNestedNameSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1942,6 +1978,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitLambdaExpression" ):
                 listener.exitLambdaExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLambdaExpression" ):
+                return visitor.visitLambdaExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2000,6 +2042,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLambdaIntroducer" ):
                 listener.exitLambdaIntroducer(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLambdaIntroducer" ):
+                return visitor.visitLambdaIntroducer(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2060,6 +2108,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLambdaCapture" ):
                 listener.exitLambdaCapture(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLambdaCapture" ):
+                return visitor.visitLambdaCapture(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2129,6 +2183,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitCaptureDefault" ):
                 listener.exitCaptureDefault(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCaptureDefault" ):
+                return visitor.visitCaptureDefault(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2188,6 +2248,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCaptureList" ):
                 listener.exitCaptureList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCaptureList" ):
+                return visitor.visitCaptureList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2256,6 +2322,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitCapture" ):
                 listener.exitCapture(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCapture" ):
+                return visitor.visitCapture(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2315,6 +2387,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSimpleCapture" ):
                 listener.exitSimpleCapture(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleCapture" ):
+                return visitor.visitSimpleCapture(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2385,6 +2463,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInitcapture" ):
                 listener.exitInitcapture(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInitcapture" ):
+                return visitor.visitInitcapture(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2459,6 +2543,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLambdaDeclarator" ):
                 listener.exitLambdaDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLambdaDeclarator" ):
+                return visitor.visitLambdaDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2629,6 +2719,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPostfixExpression" ):
                 listener.exitPostfixExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPostfixExpression" ):
+                return visitor.visitPostfixExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2886,6 +2982,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTypeIdOfTheTypeId" ):
                 listener.exitTypeIdOfTheTypeId(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTypeIdOfTheTypeId" ):
+                return visitor.visitTypeIdOfTheTypeId(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2927,6 +3029,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExpressionList" ):
                 listener.exitExpressionList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionList" ):
+                return visitor.visitExpressionList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2993,6 +3101,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPseudoDestructorName" ):
                 listener.exitPseudoDestructorName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPseudoDestructorName" ):
+                return visitor.visitPseudoDestructorName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3135,6 +3249,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUnaryExpression" ):
                 listener.exitUnaryExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnaryExpression" ):
+                return visitor.visitUnaryExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3290,6 +3410,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitUnaryOperator" ):
                 listener.exitUnaryOperator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnaryOperator" ):
+                return visitor.visitUnaryOperator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3361,6 +3487,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNewExpression" ):
                 listener.exitNewExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNewExpression" ):
+                return visitor.visitNewExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3453,6 +3585,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitNewPlacement" ):
                 listener.exitNewPlacement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNewPlacement" ):
+                return visitor.visitNewPlacement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3502,6 +3640,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNewTypeId" ):
                 listener.exitNewTypeId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNewTypeId" ):
+                return visitor.visitNewTypeId(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3560,6 +3704,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNewDeclarator" ):
                 listener.exitNewDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNewDeclarator" ):
+                return visitor.visitNewDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3641,6 +3791,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNoPointerNewDeclarator" ):
                 listener.exitNoPointerNewDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNoPointerNewDeclarator" ):
+                return visitor.visitNoPointerNewDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3741,6 +3897,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitNewInitializer" ):
                 listener.exitNewInitializer(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNewInitializer" ):
+                return visitor.visitNewInitializer(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3819,6 +3981,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitDeleteExpression" ):
                 listener.exitDeleteExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeleteExpression" ):
+                return visitor.visitDeleteExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3891,6 +4059,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitNoExceptExpression" ):
                 listener.exitNoExceptExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNoExceptExpression" ):
+                return visitor.visitNoExceptExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3952,6 +4126,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCastExpression" ):
                 listener.exitCastExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCastExpression" ):
+                return visitor.visitCastExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4028,6 +4208,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPointerMemberExpression" ):
                 listener.exitPointerMemberExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPointerMemberExpression" ):
+                return visitor.visitPointerMemberExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4110,6 +4296,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitMultiplicativeExpression" ):
                 listener.exitMultiplicativeExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMultiplicativeExpression" ):
+                return visitor.visitMultiplicativeExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4185,6 +4377,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAdditiveExpression" ):
                 listener.exitAdditiveExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAdditiveExpression" ):
+                return visitor.visitAdditiveExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4255,6 +4453,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitShiftExpression" ):
                 listener.exitShiftExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShiftExpression" ):
+                return visitor.visitShiftExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4317,6 +4521,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitShiftOperator" ):
                 listener.exitShiftOperator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShiftOperator" ):
+                return visitor.visitShiftOperator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4404,6 +4614,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitRelationalExpression" ):
                 listener.exitRelationalExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRelationalExpression" ):
+                return visitor.visitRelationalExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4480,6 +4696,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitEqualityExpression" ):
                 listener.exitEqualityExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEqualityExpression" ):
+                return visitor.visitEqualityExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4549,6 +4771,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAndExpression" ):
                 listener.exitAndExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAndExpression" ):
+                return visitor.visitAndExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4612,6 +4840,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExclusiveOrExpression" ):
                 listener.exitExclusiveOrExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExclusiveOrExpression" ):
+                return visitor.visitExclusiveOrExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4677,6 +4911,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitInclusiveOrExpression" ):
                 listener.exitInclusiveOrExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInclusiveOrExpression" ):
+                return visitor.visitInclusiveOrExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4741,6 +4981,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitLogicalAndExpression" ):
                 listener.exitLogicalAndExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogicalAndExpression" ):
+                return visitor.visitLogicalAndExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4804,6 +5050,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLogicalOrExpression" ):
                 listener.exitLogicalOrExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogicalOrExpression" ):
+                return visitor.visitLogicalOrExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4873,6 +5125,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitConditionalExpression" ):
                 listener.exitConditionalExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConditionalExpression" ):
+                return visitor.visitConditionalExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4946,6 +5204,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAssignmentExpression" ):
                 listener.exitAssignmentExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignmentExpression" ):
+                return visitor.visitAssignmentExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -5041,6 +5305,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAssignmentOperator" ):
                 listener.exitAssignmentOperator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignmentOperator" ):
+                return visitor.visitAssignmentOperator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -5098,6 +5368,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitExpression" ):
                 listener.exitExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpression" ):
+                return visitor.visitExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -5152,6 +5428,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitConstantExpression" ):
                 listener.exitConstantExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConstantExpression" ):
+                return visitor.visitConstantExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -5226,6 +5508,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStatement" ):
                 listener.exitStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatement" ):
+                return visitor.visitStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -5344,6 +5632,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitLabeledStatement" ):
                 listener.exitLabeledStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLabeledStatement" ):
+                return visitor.visitLabeledStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -5420,6 +5714,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitExpressionStatement" ):
                 listener.exitExpressionStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionStatement" ):
+                return visitor.visitExpressionStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -5477,6 +5777,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitCompoundStatement" ):
                 listener.exitCompoundStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCompoundStatement" ):
+                return visitor.visitCompoundStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -5532,6 +5838,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStatementSeq" ):
                 listener.exitStatementSeq(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatementSeq" ):
+                return visitor.visitStatementSeq(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -5607,6 +5919,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSelectionStatement" ):
                 listener.exitSelectionStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectionStatement" ):
+                return visitor.visitSelectionStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -5711,6 +6029,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCondition" ):
                 listener.exitCondition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCondition" ):
+                return visitor.visitCondition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -5834,6 +6158,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIterationStatement" ):
                 listener.exitIterationStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIterationStatement" ):
+                return visitor.visitIterationStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -5962,6 +6292,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitForInitStatement" ):
                 listener.exitForInitStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForInitStatement" ):
+                return visitor.visitForInitStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6025,6 +6361,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitForRangeDeclaration" ):
                 listener.exitForRangeDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForRangeDeclaration" ):
+                return visitor.visitForRangeDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6081,6 +6423,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitForRangeInitializer" ):
                 listener.exitForRangeInitializer(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForRangeInitializer" ):
+                return visitor.visitForRangeInitializer(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6158,6 +6506,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitJumpStatement" ):
                 listener.exitJumpStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitJumpStatement" ):
+                return visitor.visitJumpStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6240,6 +6594,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitDeclarationStatement" ):
                 listener.exitDeclarationStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclarationStatement" ):
+                return visitor.visitDeclarationStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6284,6 +6644,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDeclarationseq" ):
                 listener.exitDeclarationseq(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclarationseq" ):
+                return visitor.visitDeclarationseq(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6369,6 +6735,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDeclaration" ):
                 listener.exitDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclaration" ):
+                return visitor.visitDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6495,6 +6867,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitBlockDeclaration" ):
                 listener.exitBlockDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBlockDeclaration" ):
+                return visitor.visitBlockDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6602,6 +6980,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAliasDeclaration" ):
                 listener.exitAliasDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAliasDeclaration" ):
+                return visitor.visitAliasDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6671,6 +7055,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSimpleDeclaration" ):
                 listener.exitSimpleDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleDeclaration" ):
+                return visitor.visitSimpleDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6774,6 +7164,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitStaticAssertDeclaration" ):
                 listener.exitStaticAssertDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStaticAssertDeclaration" ):
+                return visitor.visitStaticAssertDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6827,6 +7223,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitEmptyDeclaration" ):
                 listener.exitEmptyDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEmptyDeclaration" ):
+                return visitor.visitEmptyDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -6871,6 +7273,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAttributeDeclaration" ):
                 listener.exitAttributeDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttributeDeclaration" ):
+                return visitor.visitAttributeDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -6932,6 +7340,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDeclSpecifier" ):
                 listener.exitDeclSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclSpecifier" ):
+                return visitor.visitDeclSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -7015,6 +7429,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitDeclSpecifierSeq" ):
                 listener.exitDeclSpecifierSeq(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclSpecifierSeq" ):
+                return visitor.visitDeclSpecifierSeq(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7088,6 +7508,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitStorageClassSpecifier" ):
                 listener.exitStorageClassSpecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStorageClassSpecifier" ):
+                return visitor.visitStorageClassSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7141,6 +7567,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitFunctionSpecifier" ):
                 listener.exitFunctionSpecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionSpecifier" ):
+                return visitor.visitFunctionSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7187,6 +7619,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTypedefName" ):
                 listener.exitTypedefName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTypedefName" ):
+                return visitor.visitTypedefName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -7237,6 +7675,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTypeSpecifier" ):
                 listener.exitTypeSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTypeSpecifier" ):
+                return visitor.visitTypeSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -7311,6 +7755,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTrailingTypeSpecifier" ):
                 listener.exitTrailingTypeSpecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTrailingTypeSpecifier" ):
+                return visitor.visitTrailingTypeSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7383,6 +7833,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTypeSpecifierSeq" ):
                 listener.exitTypeSpecifierSeq(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTypeSpecifierSeq" ):
+                return visitor.visitTypeSpecifierSeq(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7452,6 +7908,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTrailingTypeSpecifierSeq" ):
                 listener.exitTrailingTypeSpecifierSeq(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTrailingTypeSpecifierSeq" ):
+                return visitor.visitTrailingTypeSpecifierSeq(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7516,6 +7978,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitSimpleTypeLengthModifier" ):
                 listener.exitSimpleTypeLengthModifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleTypeLengthModifier" ):
+                return visitor.visitSimpleTypeLengthModifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7565,6 +8033,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSimpleTypeSignednessModifier" ):
                 listener.exitSimpleTypeSignednessModifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleTypeSignednessModifier" ):
+                return visitor.visitSimpleTypeSignednessModifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -7669,6 +8143,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSimpleTypeSpecifier" ):
                 listener.exitSimpleTypeSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleTypeSpecifier" ):
+                return visitor.visitSimpleTypeSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -7906,6 +8386,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTheTypeName" ):
                 listener.exitTheTypeName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTheTypeName" ):
+                return visitor.visitTheTypeName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -7984,6 +8470,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDecltypeSpecifier" ):
                 listener.exitDecltypeSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDecltypeSpecifier" ):
+                return visitor.visitDecltypeSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8065,6 +8557,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitElaboratedTypeSpecifier" ):
                 listener.exitElaboratedTypeSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitElaboratedTypeSpecifier" ):
+                return visitor.visitElaboratedTypeSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8176,6 +8674,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitEnumName" ):
                 listener.exitEnumName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumName" ):
+                return visitor.visitEnumName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8230,6 +8734,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitEnumSpecifier" ):
                 listener.exitEnumSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumSpecifier" ):
+                return visitor.visitEnumSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8308,6 +8818,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitEnumHead" ):
                 listener.exitEnumHead(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumHead" ):
+                return visitor.visitEnumHead(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8398,6 +8914,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitOpaqueEnumDeclaration" ):
                 listener.exitOpaqueEnumDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOpaqueEnumDeclaration" ):
+                return visitor.visitOpaqueEnumDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8466,6 +8988,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitEnumkey" ):
                 listener.exitEnumkey(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumkey" ):
+                return visitor.visitEnumkey(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8525,6 +9053,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitEnumbase" ):
                 listener.exitEnumbase(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumbase" ):
+                return visitor.visitEnumbase(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8577,6 +9111,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitEnumeratorList" ):
                 listener.exitEnumeratorList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumeratorList" ):
+                return visitor.visitEnumeratorList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8640,6 +9180,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitEnumeratorDefinition" ):
                 listener.exitEnumeratorDefinition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumeratorDefinition" ):
+                return visitor.visitEnumeratorDefinition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8692,6 +9238,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitEnumerator" ):
                 listener.exitEnumerator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumerator" ):
+                return visitor.visitEnumerator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8737,6 +9289,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNamespaceName" ):
                 listener.exitNamespaceName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNamespaceName" ):
+                return visitor.visitNamespaceName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8791,6 +9349,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitOriginalNamespaceName" ):
                 listener.exitOriginalNamespaceName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOriginalNamespaceName" ):
+                return visitor.visitOriginalNamespaceName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8853,6 +9417,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNamespaceDefinition" ):
                 listener.exitNamespaceDefinition(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNamespaceDefinition" ):
+                return visitor.visitNamespaceDefinition(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -8928,6 +9498,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitNamespaceAlias" ):
                 listener.exitNamespaceAlias(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNamespaceAlias" ):
+                return visitor.visitNamespaceAlias(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -8982,6 +9558,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitNamespaceAliasDefinition" ):
                 listener.exitNamespaceAliasDefinition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNamespaceAliasDefinition" ):
+                return visitor.visitNamespaceAliasDefinition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9035,6 +9617,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitQualifiednamespacespecifier" ):
                 listener.exitQualifiednamespacespecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQualifiednamespacespecifier" ):
+                return visitor.visitQualifiednamespacespecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9101,6 +9689,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUsingDeclaration" ):
                 listener.exitUsingDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUsingDeclaration" ):
+                return visitor.visitUsingDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9188,6 +9782,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitUsingDirective" ):
                 listener.exitUsingDirective(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUsingDirective" ):
+                return visitor.visitUsingDirective(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9264,6 +9864,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAsmDefinition" ):
                 listener.exitAsmDefinition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAsmDefinition" ):
+                return visitor.visitAsmDefinition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9329,6 +9935,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLinkageSpecification" ):
                 listener.exitLinkageSpecification(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLinkageSpecification" ):
+                return visitor.visitLinkageSpecification(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9402,6 +10014,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAttributeSpecifierSeq" ):
                 listener.exitAttributeSpecifierSeq(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttributeSpecifierSeq" ):
+                return visitor.visitAttributeSpecifierSeq(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9471,6 +10089,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAttributeSpecifier" ):
                 listener.exitAttributeSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttributeSpecifier" ):
+                return visitor.visitAttributeSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9558,6 +10182,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAlignmentspecifier" ):
                 listener.exitAlignmentspecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAlignmentspecifier" ):
+                return visitor.visitAlignmentspecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9639,6 +10269,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAttributeList" ):
                 listener.exitAttributeList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttributeList" ):
+                return visitor.visitAttributeList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9712,6 +10348,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAttribute" ):
                 listener.exitAttribute(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttribute" ):
+                return visitor.visitAttribute(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9772,6 +10414,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAttributeNamespace" ):
                 listener.exitAttributeNamespace(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttributeNamespace" ):
+                return visitor.visitAttributeNamespace(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -9819,6 +10467,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAttributeArgumentClause" ):
                 listener.exitAttributeArgumentClause(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttributeArgumentClause" ):
+                return visitor.visitAttributeArgumentClause(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9875,6 +10529,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBalancedTokenSeq" ):
                 listener.exitBalancedTokenSeq(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBalancedTokenSeq" ):
+                return visitor.visitBalancedTokenSeq(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -9964,6 +10624,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBalancedtoken" ):
                 listener.exitBalancedtoken(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBalancedtoken" ):
+                return visitor.visitBalancedtoken(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10069,6 +10735,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitInitDeclaratorList" ):
                 listener.exitInitDeclaratorList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInitDeclaratorList" ):
+                return visitor.visitInitDeclaratorList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10127,6 +10799,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInitDeclarator" ):
                 listener.exitInitDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInitDeclarator" ):
+                return visitor.visitInitDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10190,6 +10868,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDeclarator" ):
                 listener.exitDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclarator" ):
+                return visitor.visitDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10262,6 +10946,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPointerDeclarator" ):
                 listener.exitPointerDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPointerDeclarator" ):
+                return visitor.visitPointerDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10356,6 +11046,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNoPointerDeclarator" ):
                 listener.exitNoPointerDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNoPointerDeclarator" ):
+                return visitor.visitNoPointerDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10499,6 +11195,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitParametersAndQualifiers" ):
                 listener.exitParametersAndQualifiers(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParametersAndQualifiers" ):
+                return visitor.visitParametersAndQualifiers(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10591,6 +11293,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTrailingReturnType" ):
                 listener.exitTrailingReturnType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTrailingReturnType" ):
+                return visitor.visitTrailingReturnType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10659,6 +11367,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPointerOperator" ):
                 listener.exitPointerOperator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPointerOperator" ):
+                return visitor.visitPointerOperator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10756,6 +11470,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitCvqualifierseq" ):
                 listener.exitCvqualifierseq(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCvqualifierseq" ):
+                return visitor.visitCvqualifierseq(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10812,6 +11532,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitCvQualifier" ):
                 listener.exitCvQualifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCvQualifier" ):
+                return visitor.visitCvQualifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -10861,6 +11587,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRefqualifier" ):
                 listener.exitRefqualifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRefqualifier" ):
+                return visitor.visitRefqualifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10912,6 +11644,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDeclaratorid" ):
                 listener.exitDeclaratorid(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclaratorid" ):
+                return visitor.visitDeclaratorid(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -10967,6 +11705,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTheTypeId" ):
                 listener.exitTheTypeId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTheTypeId" ):
+                return visitor.visitTheTypeId(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11033,6 +11777,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAbstractDeclarator" ):
                 listener.exitAbstractDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAbstractDeclarator" ):
+                return visitor.visitAbstractDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11111,6 +11861,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPointerAbstractDeclarator" ):
                 listener.exitPointerAbstractDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPointerAbstractDeclarator" ):
+                return visitor.visitPointerAbstractDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11216,6 +11972,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNoPointerAbstractDeclarator" ):
                 listener.exitNoPointerAbstractDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNoPointerAbstractDeclarator" ):
+                return visitor.visitNoPointerAbstractDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11361,6 +12123,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitAbstractPackDeclarator" ):
                 listener.exitAbstractPackDeclarator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAbstractPackDeclarator" ):
+                return visitor.visitAbstractPackDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11434,6 +12202,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNoPointerAbstractPackDeclarator" ):
                 listener.exitNoPointerAbstractPackDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNoPointerAbstractPackDeclarator" ):
+                return visitor.visitNoPointerAbstractPackDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11537,6 +12311,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitParameterDeclarationClause" ):
                 listener.exitParameterDeclarationClause(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParameterDeclarationClause" ):
+                return visitor.visitParameterDeclarationClause(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11604,6 +12384,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitParameterDeclarationList" ):
                 listener.exitParameterDeclarationList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParameterDeclarationList" ):
+                return visitor.visitParameterDeclarationList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11678,6 +12464,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitParameterDeclaration" ):
                 listener.exitParameterDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParameterDeclaration" ):
+                return visitor.visitParameterDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -11777,6 +12569,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitFunctionDefinition" ):
                 listener.exitFunctionDefinition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionDefinition" ):
+                return visitor.visitFunctionDefinition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11866,6 +12664,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitFunctionBody" ):
                 listener.exitFunctionBody(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionBody" ):
+                return visitor.visitFunctionBody(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -11954,6 +12758,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitInitializer" ):
                 listener.exitInitializer(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInitializer" ):
+                return visitor.visitInitializer(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -12020,6 +12830,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitBraceOrEqualInitializer" ):
                 listener.exitBraceOrEqualInitializer(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBraceOrEqualInitializer" ):
+                return visitor.visitBraceOrEqualInitializer(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -12080,6 +12896,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInitializerClause" ):
                 listener.exitInitializerClause(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInitializerClause" ):
+                return visitor.visitInitializerClause(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12150,6 +12972,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInitializerList" ):
                 listener.exitInitializerList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInitializerList" ):
+                return visitor.visitInitializerList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12232,6 +13060,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitBracedInitList" ):
                 listener.exitBracedInitList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBracedInitList" ):
+                return visitor.visitBracedInitList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -12295,6 +13129,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitClassName" ):
                 listener.exitClassName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassName" ):
+                return visitor.visitClassName(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12360,6 +13200,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitClassSpecifier" ):
                 listener.exitClassSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassSpecifier" ):
+                return visitor.visitClassSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12434,6 +13280,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitClassHead" ):
                 listener.exitClassHead(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassHead" ):
+                return visitor.visitClassHead(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12551,6 +13403,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitClassHeadName" ):
                 listener.exitClassHeadName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassHeadName" ):
+                return visitor.visitClassHeadName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -12600,6 +13458,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitClassVirtSpecifier" ):
                 listener.exitClassVirtSpecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassVirtSpecifier" ):
+                return visitor.visitClassVirtSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -12643,6 +13507,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitClassKey" ):
                 listener.exitClassKey(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassKey" ):
+                return visitor.visitClassKey(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12707,6 +13577,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMemberSpecification" ):
                 listener.exitMemberSpecification(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMemberSpecification" ):
+                return visitor.visitMemberSpecification(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12809,6 +13685,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMemberdeclaration" ):
                 listener.exitMemberdeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMemberdeclaration" ):
+                return visitor.visitMemberdeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -12929,6 +13811,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitMemberDeclaratorList" ):
                 listener.exitMemberDeclaratorList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMemberDeclaratorList" ):
+                return visitor.visitMemberDeclaratorList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13009,6 +13897,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMemberDeclarator" ):
                 listener.exitMemberDeclarator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMemberDeclarator" ):
+                return visitor.visitMemberDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13121,6 +14015,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitVirtualSpecifierSeq" ):
                 listener.exitVirtualSpecifierSeq(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVirtualSpecifierSeq" ):
+                return visitor.visitVirtualSpecifierSeq(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13176,6 +14076,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitVirtualSpecifier" ):
                 listener.exitVirtualSpecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVirtualSpecifier" ):
+                return visitor.visitVirtualSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13227,6 +14133,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitPureSpecifier" ):
                 listener.exitPureSpecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPureSpecifier" ):
+                return visitor.visitPureSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13240,7 +14152,7 @@ class CPP14Parser ( Parser ):
             self.match(CPP14Parser.Assign)
             self.state = 1783
             localctx.val = self.match(CPP14Parser.OctalLiteral)
-           # if((None if localctx.val is None else localctx.val.text).compareTo("0")!=0) throw new InputMismatchException(this);
+            #if((None if localctx.val is None else localctx.val.text).compareTo("0")!=0) throw new InputMismatchException(this);
             		
         except RecognitionException as re:
             localctx.exception = re
@@ -13275,6 +14187,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBaseClause" ):
                 listener.exitBaseClause(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBaseClause" ):
+                return visitor.visitBaseClause(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13334,6 +14252,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBaseSpecifierList" ):
                 listener.exitBaseSpecifierList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBaseSpecifierList" ):
+                return visitor.visitBaseSpecifierList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13416,6 +14340,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBaseSpecifier" ):
                 listener.exitBaseSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBaseSpecifier" ):
+                return visitor.visitBaseSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13512,6 +14442,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitClassOrDeclType" ):
                 listener.exitClassOrDeclType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassOrDeclType" ):
+                return visitor.visitClassOrDeclType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13575,6 +14511,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitBaseTypeSpecifier" ):
                 listener.exitBaseTypeSpecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBaseTypeSpecifier" ):
+                return visitor.visitBaseTypeSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13621,6 +14563,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAccessSpecifier" ):
                 listener.exitAccessSpecifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAccessSpecifier" ):
+                return visitor.visitAccessSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13673,6 +14621,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitConversionFunctionId" ):
                 listener.exitConversionFunctionId(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConversionFunctionId" ):
+                return visitor.visitConversionFunctionId(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13720,6 +14674,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitConversionTypeId" ):
                 listener.exitConversionTypeId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConversionTypeId" ):
+                return visitor.visitConversionTypeId(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13775,6 +14735,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitConversionDeclarator" ):
                 listener.exitConversionDeclarator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConversionDeclarator" ):
+                return visitor.visitConversionDeclarator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -13827,6 +14793,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitConstructorInitializer" ):
                 listener.exitConstructorInitializer(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConstructorInitializer" ):
+                return visitor.visitConstructorInitializer(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13886,6 +14858,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMemInitializerList" ):
                 listener.exitMemInitializerList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMemInitializerList" ):
+                return visitor.visitMemInitializerList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -13972,6 +14950,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitMemInitializer" ):
                 listener.exitMemInitializer(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMemInitializer" ):
+                return visitor.visitMemInitializer(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14042,6 +15026,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitMeminitializerid" ):
                 listener.exitMeminitializerid(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMeminitializerid" ):
+                return visitor.visitMeminitializerid(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14100,6 +15090,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitOperatorFunctionId" ):
                 listener.exitOperatorFunctionId(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOperatorFunctionId" ):
+                return visitor.visitOperatorFunctionId(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14151,6 +15147,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLiteralOperatorId" ):
                 listener.exitLiteralOperatorId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLiteralOperatorId" ):
+                return visitor.visitLiteralOperatorId(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -14223,6 +15225,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTemplateDeclaration" ):
                 listener.exitTemplateDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTemplateDeclaration" ):
+                return visitor.visitTemplateDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14282,6 +15290,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTemplateparameterList" ):
                 listener.exitTemplateparameterList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTemplateparameterList" ):
+                return visitor.visitTemplateparameterList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14340,6 +15354,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTemplateParameter" ):
                 listener.exitTemplateParameter(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTemplateParameter" ):
+                return visitor.visitTemplateParameter(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -14423,6 +15443,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTypeParameter" ):
                 listener.exitTypeParameter(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTypeParameter" ):
+                return visitor.visitTypeParameter(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -14541,6 +15567,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitSimpleTemplateId" ):
                 listener.exitSimpleTemplateId(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleTemplateId" ):
+                return visitor.visitSimpleTemplateId(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14613,6 +15645,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTemplateId" ):
                 listener.exitTemplateId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTemplateId" ):
+                return visitor.visitTemplateId(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -14693,6 +15731,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTemplateName" ):
                 listener.exitTemplateName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTemplateName" ):
+                return visitor.visitTemplateName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14749,6 +15793,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTemplateArgumentList" ):
                 listener.exitTemplateArgumentList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTemplateArgumentList" ):
+                return visitor.visitTemplateArgumentList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -14829,6 +15879,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTemplateArgument" ):
                 listener.exitTemplateArgument(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTemplateArgument" ):
+                return visitor.visitTemplateArgument(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14903,6 +15959,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitTypeNameSpecifier" ):
                 listener.exitTypeNameSpecifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTypeNameSpecifier" ):
+                return visitor.visitTypeNameSpecifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -14976,6 +16038,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitExplicitInstantiation" ):
                 listener.exitExplicitInstantiation(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExplicitInstantiation" ):
+                return visitor.visitExplicitInstantiation(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -15038,6 +16106,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitExplicitSpecialization" ):
                 listener.exitExplicitSpecialization(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExplicitSpecialization" ):
+                return visitor.visitExplicitSpecialization(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -15092,6 +16166,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTryBlock" ):
                 listener.exitTryBlock(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTryBlock" ):
+                return visitor.visitTryBlock(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15150,6 +16230,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitFunctionTryBlock" ):
                 listener.exitFunctionTryBlock(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionTryBlock" ):
+                return visitor.visitFunctionTryBlock(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -15207,6 +16293,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitHandlerSeq" ):
                 listener.exitHandlerSeq(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandlerSeq" ):
+                return visitor.visitHandlerSeq(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15274,6 +16366,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitHandler" ):
                 listener.exitHandler(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHandler" ):
+                return visitor.visitHandler(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -15338,6 +16436,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExceptionDeclaration" ):
                 listener.exitExceptionDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExceptionDeclaration" ):
+                return visitor.visitExceptionDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15418,6 +16522,12 @@ class CPP14Parser ( Parser ):
             if hasattr( listener, "exitThrowExpression" ):
                 listener.exitThrowExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitThrowExpression" ):
+                return visitor.visitThrowExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -15472,6 +16582,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExceptionSpecification" ):
                 listener.exitExceptionSpecification(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExceptionSpecification" ):
+                return visitor.visitExceptionSpecification(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15536,6 +16652,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDynamicExceptionSpecification" ):
                 listener.exitDynamicExceptionSpecification(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDynamicExceptionSpecification" ):
+                return visitor.visitDynamicExceptionSpecification(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15606,6 +16728,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTypeIdList" ):
                 listener.exitTypeIdList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTypeIdList" ):
+                return visitor.visitTypeIdList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15686,6 +16814,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNoeExceptSpecification" ):
                 listener.exitNoeExceptSpecification(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNoeExceptSpecification" ):
+                return visitor.visitNoeExceptSpecification(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -15866,6 +17000,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTheOperator" ):
                 listener.exitTheOperator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTheOperator" ):
+                return visitor.visitTheOperator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -16188,6 +17328,12 @@ class CPP14Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLiteral" ):
                 listener.exitLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLiteral" ):
+                return visitor.visitLiteral(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 

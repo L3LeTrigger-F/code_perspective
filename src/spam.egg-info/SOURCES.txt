@@ -152,6 +152,7 @@ src/spam.egg-info/top_level.txt
 src/spam/parser/CPP14Lexer.py
 src/spam/parser/CPP14Parser.py
 src/spam/parser/CPP14ParserListener.py
+src/spam/parser/CPP14ParserVisitor.py
 src/spam/parser/CPPExtract.py
 src/spam/parser/__init__.py
 src/spam/parser/generate.py

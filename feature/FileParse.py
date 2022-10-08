@@ -6,6 +6,8 @@ from antlr4 import *
 from src.spam.parser.CPPExtract import CPP14Extract
 from src.spam.parser.sa_cpp14 import *
 import spam
+import math
+import chardet
 class ExampleErrorListener(SA_ErrorListener):
     def syntaxError(self, input_stream, offendingSymbol,
         char_index:int, line:int, column:int, msg:str
@@ -17,10 +19,13 @@ class ExampleErrorListener(SA_ErrorListener):
         print("    line:", line)
         print("    column:", column)
         print("    msg:", msg)
+
 class FileParser():
     def __init__(self):
         self.listener = CPP14Extract()
         self.walker = ParseTreeWalker()
+        self.tokenNum=0
+        self.maxdepth=0
         self.authorinfo = {
             'newUsageNumber': 0,
             'oldUsageNumber': 0,
@@ -34,7 +39,7 @@ class FileParser():
             'variableVariance': 0,
             'englishScore': 0,
             'englishUsageTime': 0,
-            'macroNumber': 0,
+            'preprocessNumber': 0,
             'identifierNumber': 0,
             'lambdaNumber': 0,
             'inlineNumber': 0,
@@ -46,23 +51,33 @@ class FileParser():
             'PointerVar': 0,
             'normalNumber':0,
             'newNumber': 0,
-            'deleteNumber': 0
+            'deleteNumber': 0,
         }
+        self.funcLength=[]
+    #这里有问题，需要处理tokens
+    def calculatewordTF(self,token):
+        code_dict=dict.fromkeys(token,0)
+        for word in token:
+            code_dict[word]+=1
+        for keys in code_dict:
+            code_dict[keys]/=len(token)
+        #print(code_dict)
+        return code_dict
     def calaulateUsage(self, code):
         #以C++17为标准
         rules_new = [
-            r"#include<Filesystem>",r"apply\([(.*?)]\)",r"invoke([(.*?)])",r"optional<[(.*?)]>",
+            r"#include<Filesystem>",r"apply\((.*?)\)",r"invoke\((.*?)\)",r"optional<(.*?)>",
             r"#include<any>",r"#include<variant>",r"#include<string_new>",r"scoped_lock",
-            r"make_from_tuple",r"charconv",r"search\([(.*?)]\)",
+            r"make_from_tuple",r"charconv",r"search\((.*?)\)",
             r"default_searcher",r"boyer_moore_searcher",r"boyer_moore_horspool_searcher",
-            r"execution",r"memory_resource",r"if constexpr",r"u8'[(.*?)]'",r"[[fallthrough]]",
-            r"[[nodiscard]]",r"[[maybe_unused]]",r"__has_include",r"static_assert([(.*?)]^,)",r"template<template<typename",
-            r"namespace [(.*?)]::[(.*?)]::"
+            r"execution",r"memory_resource",r"if constexpr",r"u8'(.*?)'",r"\[\[fallthrough\]\]",
+            r"\[\[nodiscard\]\]",r"\[\[maybe_unused\]\]",r"__has_include",r"static_assert",r"template<template<typename",
+            r"namespace (.*?)::(.*?)::"
         ]
         # abandon usage
         rules_old = [
-            r"std::auto_ptr",r"char *",r"register",r"unexpected_handler",r"set_unexpected()",r"convert_type",
-            r"<ccomplex>",r"<cstdalign>",r"<cstdbool>",r"<ctgmath>",r"gets()",r"throw([(.*?)])",r"trigraph",r"static constexpr",
+            r"std::auto_ptr",r"register",r"unexpected_handler",r"set_unexpected\((.*?)\)",r"convert_type",
+            r"<ccomplex>",r"<cstdalign>",r"<cstdbool>",r"<ctgmath>",r"gets\(\)",r"throw\((.*?)\)",r"trigraph",r"static constexpr",
             r"random_shuffle",r"allocator<void>",r"<codecvt>",r"raw_storage_iterator",r"get_temporary_buffer",r"is_literal_type",
             r"std::iterator",r"memory_order_consume",r"shared_ptr::unique",r"result_of"
         ]
@@ -110,35 +125,40 @@ class FileParser():
         extern_rules=r'extern(.*?)\((.*?)\)'
         self.listener.externFunctionNumber+=sum([len(re.findall(extern_rules, str(code)))])
         #self.authorinfo['externFunctionNumber']+=sum([len(re.findall(extern_rules, str(code)))])
-    #提取注释
-    def extractComment(self, tokenStream):#注释
-        comment = []
-        for token in tokenStream.tokens:
-            if token.channel == 4:
-                comment.append(token.text)
-
-        return comment
+    def extractComment(selfself,file):
+        CommentList=[]
+        Block_op=False
+        for line in file:
+            if Block_op==True:
+                if line.find('*/')!=-1:
+                    if line.find('*/')!=-1:
+                        CommentList.append(line[:line.find('*/')])
+                    Block_op=False
+                else:
+                    CommentList.append(line[line.find('/*')+2:])
+            if line.find('//')!=-1:
+                CommentList.append(line[line.find('//')+2:])
+            if line.find('/*')!=-1 and line.find('*/')!=-1:
+                CommentList.append(line[line.find('/*') + 2:line.find('*/')])
+                continue
+            if line.find('/*')!=-1:
+                CommentList.append(line[line.find('/*') + 2:])
+                Block_op=True
+        return CommentList
 #注释比率
-    def calculateCommentRate(self, comment, file):
-        codeLength =len(file)
-        self.authorinfo['commentNumber']+=len(comment)
-        self.authorinfo['codeLength']+=codeLength
-        return len(comment) / codeLength
-# 计算长函数所占比率，如果长度大于五十就算长函数
-    def calculateLongFunctionRate(self):
-        #how to define long function
-        long_length=50
+    def calculateCommentRate(self, comment, codeLength):
+        #self.authorinfo['commentNumber']+=len(comment)
+        #self.authorinfo['codeLength']+=codeLength
+        return math.log(len(comment) / codeLength)
+# 计算函数的平均值和标准差
+    def calculateFunctionInfo(self):
         if self.listener.functionNumber == 0:
             return None
         functionLength = []
-        #print(self.listener.functionList['functionBody'])
-
         for function in self.listener.functionList:
             functionLength.append(function['functionEndLine'] - function['functionStartLine'] + 1)
-        longFunctionNumber = sum(length > long_length for length in functionLength)
-        self.authorinfo['longFunctionNumber']+=longFunctionNumber
-        self.authorinfo['functionNumber']+=self.listener.functionNumber
-        return longFunctionNumber / self.listener.functionNumber
+            #self.funcLength.append(function['functionEndLine'] - function['functionStartLine'] + 1)
+        return np.mean(functionLength),np.std(functionLength)
 #变量定义的位置
     def calculateVariableLocationVariance(self):
         if self.listener.functionNumber == 0:
@@ -167,15 +187,27 @@ class FileParser():
         self.authorinfo['englishScore']+=englishScore
         self.authorinfo['englishUsageTime']+=englishUsageTime
         return englishScore / englishUsageTime if englishUsageTime != 0 else 0
-    def extractmacro(self,code):
-        macro_rules='#define (.*?)'
-        self.listener.macroNumber = sum([len(re.findall(rule, str(code))) for rule in macro_rules])
-        self.authorinfo['macroNumber']+=self.listener.macroNumber
-        if self.listener.macroNumber==0:
-            return None
-        if self.listener.identifierNumber!=0:
-            return self.listener.macroNumber/(self.listener.identifierNumber)
-        return None
+# 动态还是静态数组
+    def calculateArray(self,file):
+        static_rule='(.*?) \[(.*?)\]'
+        dynamic_rules=['vector','new','malloc']
+        dynamic_num=0
+        static_num=0
+        for line in file:
+            static_num+=len(re.findall(static_rule,line))
+            dynamic_num+=sum([len(re.findall(rule, line)) for rule in dynamic_rules])
+        return static_num/dynamic_num
+
+#预处理器
+    def calculatePreprocessor(self,file,characterNum):
+        pre_rules = [r'#define', r'#ifdef', r'#ifndef', r'#endif', r'__LINE__', r'__FILE__', r'__DATE__', r'__TIME__']
+        preprocessNumber=0
+        for line in file:
+            preprocessNumber += sum([len(re.findall(rule, line)) for rule in pre_rules])
+            #self.authorinfo['preprocessNumber']+=self.listener.preprocessNumber
+        if preprocessNumber==0:
+            return 0
+        return (preprocessNumber,characterNum)
     def extractWordAndNamingConvention(self, identifier):
         '''
         Support Cammel and UnderScore Naming Convention
@@ -203,7 +235,6 @@ class FileParser():
         identifierList = self.listener.identifierList
         if len(identifierList) == 0:
             return None, None
-
         normalIdentifierNumber = 0
         wordList = []
         for identifier in identifierList:
@@ -216,38 +247,38 @@ class FileParser():
         return englishLevel, normalIdentifierNumber / len(identifierList)
     # 匿名函数
     def calculateLambdaFunctionNumber(self):
-        if self.listener.lambdaFunctionNumber + self.listener.functionNumber == 0:
+        if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber == 0:
             return None
         self.authorinfo['lambdaNumber']+=self.listener.lambdaFunctionNumber
         return self.listener.lambdaFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
     #异常,这里没有做改变，因为C++的异常处理都挺细致的
     def calculateIninlineFunctionNumber(self):
-        if self.listener.lambdaFunctionNumber + self.listener.functionNumber == 0:
+        if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber == 0:
             return None
         self.authorinfo['inlineNumber'] += self.listener.inlineFunctionNumber
         return self.listener.inlineFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
     def calculateVirtualFunctionNumber(self):
-        if self.listener.lambdaFunctionNumber+ self.listener.functionNumber == 0:
+        if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber == 0:
             return None
         self.authorinfo['virtualNumber'] += self.listener.virtualFunctionNumber
         return self.listener.virtualFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
     def calculateTemplateFunctionNumber(self):
-        if self.listener.lambdaFunctionNumber+ self.listener.functionNumber == 0:
+        if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber == 0:
             return None
         self.authorinfo['TemplateNumber'] += self.listener.templateFunctionNumber
         return self.listener.templateFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
     def calculateStaticFunctionNumber(self):
-        if self.listener.lambdaFunctionNumber + self.listener.functionNumber == 0:
+        if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber == 0:
             return None
         self.authorinfo['staticNumber'] += self.listener.staticFunctionNumber
         return self.listener.staticFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
     def calculateExternFunctionNumber(self):
-        if self.listener.lambdaFunctionNumber + self.listener.functionNumber == 0:
+        if self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber == 0:
             return None
-        self.authorinfo['ExternNumber'] += self.listener.ExternFunctionNumber
+        self.authorinfo['ExternNumber'] += self.listener.externFunctionNumber
         return self.listener.externFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
     def calculatePointerFunctionNumber(self):
-        if self.listener.pointerFunctionNumber + self.listener.functionNumber == 0:
+        if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber== 0:
             return None
         self.authorinfo['PointerFunc'] += self.listener.pointerFunctionNumber
         return self.listener.pointerFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
@@ -256,17 +287,143 @@ class FileParser():
             return None
         self.authorinfo['PointerVar']+=self.listener.pointervarNumber
         return self.listener.pointervarNumber/self.listener.identifierNumber
-    def calculateMemoryRecall(self):
-        if self.listener.newNumber==0:
+    def calculateMemoryRecall(self,tokens):
+        newNumber=0
+        deleteNumber=0
+        new_list=['new','malloc']
+        delete_list=['delete','free']
+        for tk in tokens:
+            if tk in new_list:
+                newNumber+=1
+            elif tk in delete_list:
+                deleteNumber+=1
+        return (deleteNumber,newNumber)
+    def IfSynchronization(self,tokens):
+        if 'sync_with_stdio' in tokens:
+            return 1
+        else:
+            return 0
+    def calculateTokenRate(self, file,characterNum):
+        token_list=[]
+        for line in file:
+            token_list.append( list(filter(None,re.split('[ \(\)\*;\{\}\[\]+=\-&/|%!?:,<>~`\t\r\n\"#$\']', line))))
+        token_lists=[i for item in token_list for i in item]
+        return token_lists,math.log(len(token_lists) / characterNum)
+    def calculateKeywords(self,token,characterNum):
+        keywords_list=['alignas','alignof','and','and_eq','asm','atomic_cancel','concept','const','consteval','constexpr',
+                       'constinit','const_cast','continue','co_await','co_return','co_yield','atomic_commit','atomic_noexcept',
+                        'auto','bitand', 'bitor', 'bool', 'break', 'case', 'catch', 'char', 'char8_t', 'char16_t', 'char32_t',
+                       'class', 'compl','concept','const','consteval','constexpr','constinit','const_cast','continue','co_await',
+                       'co_return','co_yield','decltype','default','delete','do','double','dynamic_cast','else','enum','explicit',
+                       'export','extern','false','float','for','friend','goto','if','inline','int','long','mutable','namespace','new',
+                       'noexcept','not','not_eq','nullptr','operator','or','or_eq','private','protected','public','reflexpr','register',
+                       'reinterpret_cast','requires','return','short','signed','sizeof','static','static_assert','static_cast','struct',
+                       'switch','synchronized','template','this','thread_local','throw','true','try','typedef','typeid','typename','union',
+                       'unsigned','using','virtual','void','volatile','wchar_t','while','xor','xor_eq','final','override','transaction_safe',
+                       'transaction_safe_dynamic','import','module','if','elif','else','endif','ifdef','ifndef','elifdef','elifndef','define',
+                       'undef','include','line','error','warning','pragma','defined','__has_include','__has_cpp_attribute','export','import',
+                       'module','_Pragma'#135
+                       ]
+        keyToken=0
+        for tt in token:
+            if tt in keywords_list:
+                keyToken+=1
+        if keyToken==0:
             return None
-        self.authorinfo['newNumber']+=self.listener.newNumber
-        self.authorinfo['deleteNumber']+=self.listener.deleteNumber
-        return self.listener.deleteNumber/self.listener.newNumber
-    def macroIdentifier(self):
-        if self.listener.macroNumber+self.listener.identifierNumber==0:
+        return math.log(keyToken/characterNum)
+    def calculateIDecrement(self,file):
+        ope_tuple1=0
+        ope_tuple2=0
+        ope_tuple3=0
+        for line in file:
+            ope_tuple1+=len(re.findall(r'(\+\+)|(--)', str(line)))
+            ope_tuple2+=len(re.findall(r'(\+=)|(-=)', str(line)))
+            ope_tuple3+=len(re.findall(r'(\w+=\w+\+1)|(\w+=\w+-1)', str(line)))
+        return (ope_tuple1,ope_tuple2,ope_tuple3)
+    #def calculateMemoryAllocation(self,file):
+
+    def calculateLayout(self,file,tokenLength):
+        tab_rule=r'\t'
+        white_space_rule=r' '
+        white_line_rule=r'^\s*\n'
+        tab_num=0
+        indented_tab_num=0
+        indented_space_num=0
+        white_space_num=0
+        white_line_num=0
+        white_line_op=False
+        new_line_cnt=0
+        total_cnt=0
+        for line in file:
+            tab_num+=sum([len(re.findall(tab_rule, str(line)))])
+            white_space_num+=sum([len(re.findall(white_space_rule, str(line)))])
+            white_line_num_1=sum([len(re.findall(white_line_rule, str(line)))])
+            white_line_num+=white_line_num_1
+            if line.strip().find('{')!=-1:
+                total_cnt += 1
+                if white_line_op == True:
+                    new_line_cnt += 1
+            if white_line_num_1!=0:
+                white_line_op=True
+            else:
+                white_line_op=False
+            i=0
+            while str(line)[i]==" " or str(line)[i]=="\t":
+                i+=1
+            if sum([len(re.findall(tab_rule, str(line[1:i-1])))]) >sum([len(re.findall(white_space_rule, str(line[1:i-1])))]):
+                indented_tab_num +=1
+            else:
+                indented_space_num+=1
+        tabsLeadLines=True
+        if indented_tab_num<indented_space_num:
+            tabsLeadLines=False
+        if tokenLength==0:
+            return None,None,None,None,None
+        return tab_num/tokenLength, white_space_num/tokenLength,white_line_num/tokenLength,(tab_num+white_space_num)/(tokenLength-tab_num-white_space_num),new_line_cnt/total_cnt,tabsLeadLines
+    # zkq
+    def calculateAvgLineLength(self,file):
+        sum_length_list = []
+        for line in file:
+            sum_length_list.append(len(line))
+        return np.mean(sum_length_list),np.std(sum_length_list)
+    def calculateKeyword(self,tokens,characterNum):
+        sum_keyword = 0
+        keyword = ['do', 'if', 'else','switch', 'for', 'while']
+        for tk in tokens:
+            if tk in keyword:
+                sum_keyword+=1
+        if sum_keyword==0:
             return None
-        self.authorinfo['macroNumber']+=self.listener.macroNumber
-        return self.listener.macroNumber/(self.listener.macroNumber+self.listener.identifierNumber)
+        return math.log(sum_keyword/characterNum)
+    def calculateTernary(self,file,characterNum):
+        sum_ternary=0
+        ternary = '[\s\S]*\?[\s\S]*\:[\s\S]*'
+        for line in file:
+            sum_ternary +=sum([len(re.findall(ternary, str(line)))])
+        if sum_ternary==0:
+            return None
+        return math.log(sum_ternary/characterNum)
+    def calculateNumLiterals(self,file,characterNum):
+        sum_literals = 0
+        target = '\"[\s\S]*\"|\'[\s\S]*\'|\-{0,1}[0-9]{1,}'
+        for line in file:
+            sum_literals += sum([len(re.findall(target, str(line)))])
+        if sum_literals==0:
+            return None
+        return math.log(sum_literals/characterNum)
+    def calculateAvgParams(self):
+        if self.listener.functionNumber == 0:
+            return 0
+        sum_func = self.listener.functionNumber
+        sum_params = []
+        for func in self.listener.functionList:
+            sum_params.append(func['ParamsNum'])
+        return np.mean(sum_params),np.std(sum_params)
+    def calculateParams(self):
+        ParamNumList=[]
+        for func in self.listener.functionList:
+            ParamNumList.append(func['ParamsNum'])
+        return np.mean(ParamNumList),np.std(ParamNumList)
     def calculateOpenness(self, newUsageRate):
         return newUsageRate
 
@@ -346,48 +503,103 @@ class FileParser():
             neuroticism.append(1 - localVariableVarience)#为什么是1-
 
         return np.mean(neuroticism)
-
+    def calculateCharacterNum(self,file):
+        characterNum=0
+        for lines in file:
+            characterNum+=len(lines)
+        return characterNum
     def parse(self, filePath):
-        print(filePath)
         #原先的生成树方式
-        tokenStream = CommonTokenStream(CPP14Lexer(FileStream(filePath)))
+        #tokenStream = CommonTokenStream(CPP14Lexer(FileStream(filePath)))
         #parser = CPP14Parser(tokenStream)
         #预测模式
         #parser._interp.predictionMode = PredictionMode.SLL
         walker=ParseTreeWalker()
         stt=time.time()
-        #spam是自行编译的包
+        #spam是自行编译的包,只能获得parseTree，不能提取到tokens
         tree=spam.build_tree(filePath)
         print("time",time.time()-stt)
         start_time=time.time()
         self.walker.walk(self.listener, tree)
-        #end_time=time.time()
         print("walk树时间：",time.time()-start_time)
-        with open(filePath, 'r') as fp:
+        #format attention!!
+        with open(filePath, 'rb') as fp:
+            fileData=fp.read()
+        fm=chardet.detect(fileData)
+        fp.close()
+        with open(filePath, 'r',encoding=fm['encoding']) as fp:
             fileData = fp.readlines()
+        author_info={}
         # extract code features
         start_time=time.time()
         self.authorinfo['identifierNumber']=self.listener.identifierNumber
-        newUsageRate, safetyUsageRate = self.calaulateUsage(fileData)
-        commentRate = self.calculateCommentRate(self.extractComment(tokenStream), fileData)
-        longFunctionRate = self.calculateLongFunctionRate()
-        localVariableVarience = self.calculateVariableLocationVariance()
-        englishLevel, normalNamingRate = self.calculateEnglishLevelAndNormalNamingRate()
-        pointerFunctionRate=self.calculatePointerFunctionNumber()
-        pointercallRate=self.calculatePointerVariable()
-        virtualFunctionRate=self.calculateVirtualFunctionNumber()
-        inlineFunctionRate=self.calculateIninlineFunctionNumber()
-        macroFunctionRate=self.macroIdentifier()
-        memoryRecallRate=self.calculateMemoryRecall()
-        lambdaFunctionRate=self.calculateLambdaFunctionNumber()
-        # calculate psychological features
-        openness = self.calculateOpenness(newUsageRate)#开放性
-        conscientiousness = self.calculateConscientiousness(safetyUsageRate, normalNamingRate,
-                                   longFunctionRate, commentRate,memoryRecallRate,pointerFunctionRate,pointercallRate,virtualFunctionRate,inlineFunctionRate,
-                                   macroFunctionRate)#尽责性
-        extroversion = self.calculateExtroversion(commentRate)#外倾性
-        agreeableness = self.calculateAgreeableness(newUsageRate, longFunctionRate,lambdaFunctionRate)#宜人性
-        neuroticism = self.calculateNeuroticism(normalNamingRate, localVariableVarience)#情绪
-        print("计算时间：",time.time()-start_time)
-        return self.authorinfo,openness, conscientiousness, extroversion, agreeableness, neuroticism
+        #字符数
+        characterNum=self.calculateCharacterNum(fileData)
+        if characterNum==0:
+            return None
 
+        author_info['file']=filePath
+        #token集合和token比率
+        token,author_info['tokenRate']=self.calculateTokenRate(fileData,characterNum)
+        #词频
+        author_info['wordTF']=self.calculatewordTF(token)
+        #注释集
+        CommentList=self.extractComment(fileData)
+        #注释比率
+        author_info['commentRate'] = self.calculateCommentRate(CommentList,characterNum)
+        #新旧调用，安全调用
+        author_info['newUsageRate'], author_info['safetyUsageRate'] = self.calaulateUsage(fileData)
+        #关键字比例
+        author_info['keywordsRate']=self.calculateKeywords(token,characterNum)
+        #循环关键字比例
+        author_info['loopRate']=self.calculateKeyword(fileData,characterNum)
+        #三目运算符比例
+        author_info['ternaryRate']=self.calculateTernary(fileData,characterNum)
+        #数字or字符比例
+        author_info['LiteralRate']=self.calculateTernary(fileData,characterNum)
+        #平均行长度,方差
+        author_info['LineAverage'],author_info['LineStd']=self.calculateAvgLineLength(fileData)
+        #平均函数长度，方差
+        author_info['FunctionAvg'],author_info['FunctionStd']=self.calculateFunctionInfo()
+        #平均参数个数，方差
+        author_info['ParamAvg'],author_info['ParamStd']=self.calculateAvgParams()
+        #局部变量的位置
+        author_info['localVariableVarience'] = self.calculateVariableLocationVariance()
+        #英语水平和命名水平
+        author_info['englishLevel'], author_info['normalNamingRate'] = self.calculateEnglishLevelAndNormalNamingRate()
+        #指针函数占所有函数比例
+        author_info['pointerFunctionRate']=self.calculatePointerFunctionNumber()
+        #虚函数占所有函数比例
+        author_info['virtualFunctionRate']=self.calculateVirtualFunctionNumber()
+        #inline函数占所有函数比例
+        author_info['inlineFunctionRate']=self.calculateIninlineFunctionNumber()
+        #外部函数占所有函数比例
+        author_info['externFunctionRate']=self.calculateExternFunctionNumber()
+        #匿名函数比例
+        author_info['lambdaFunctionRate']=self.calculateLambdaFunctionNumber()
+        #预处理器函数
+        author_info['preprocessRate']=self.calculatePreprocessor(fileData,characterNum)
+        #指针调用水平（需要改）
+        author_info['pointercallRate']=self.calculatePointerVariable()
+        #new和rate的比例
+        author_info['memoryRecallRate']=self.calculateMemoryRecall(token)
+        #布局计算
+        author_info['tabsRate'],author_info['SpacesRate'],author_info['EmptyLineRate'],author_info['whiteSpaceRate'],author_info['newLineBeforeOpenBrace'],author_info['tabsLeadLines']=self.calculateLayout(fileData,characterNum)
+        #是否需要sync with stdio
+        author_info['Ifsync']=self.IfSynchronization(token)
+        author_info['AvgParams'],author_info['stdParams']=self.calculateAvgParams()
+        #动态还是静态数组
+        author_info['arrays']=self.calculateArray(fileData)
+        #递增方式
+        author_info['IDecrement']=self.calculateIDecrement(fileData)
+        # calculate psychological features
+        #openness = self.calculateOpenness(newUsageRate)#开放性
+        #conscientiousness = self.calculateConscientiousness(safetyUsageRate, normalNamingRate,
+         #                          longFunctionRate, commentRate,memoryRecallRate,pointerFunctionRate,pointercallRate,virtualFunctionRate,inlineFunctionRate,
+          #                         macroFunctionRate)#尽责性
+        #extroversion = self.calculateExtroversion(commentRate)#外倾性
+        #agreeableness = self.calculateAgreeableness(newUsageRate, longFunctionRate,lambdaFunctionRate)#宜人性
+        #neuroticism = self.calculateNeuroticism(normalNamingRate, localVariableVarience)#情绪
+        print("计算时间：",time.time()-start_time)
+        #return self.authorinfo,openness #conscientiousness, extroversion, agreeableness, neuroticism
+        return author_info
