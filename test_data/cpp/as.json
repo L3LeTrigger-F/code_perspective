@@ -3,7 +3,7 @@
   "PersonName": "as",
   "PersonPath": "/home/codedataset/CodePerspective-cpp/data1/as/C++/asss.cpp",
   "FileFeatures": {
-   "CharacterNum": 776,
+   "FileLength": 776,
    "token": [
     "include",
     "fstream",
@@ -342,10 +342,12 @@
     "13": 1,
     "1": 1
    },
+   "FileLineNumber": 49,
    "FunctionLength": [
     45
    ],
-   "Params": 0,
+   "FunctionNumber": 1,
+   "Parameters": 0,
    "ParamsDictInfo": {
     "5": 0
    },
@@ -358,8 +360,10 @@
    },
    "englishLevel": 0,
    "english_info": 0,
+   "EnglishNumber": 0,
    "cammelIdentifierNumber": 0,
    "underScoreIdentifierNumber": 0,
+   "anonymousFunctionNumber": 0,
    "preprocess": 0,
    "memoryRecall": {
     "deleteNumber": 0,
@@ -388,8 +392,16 @@
     "try": 0,
     "exception": 0
    },
+   "abnormalNumber": 0,
    "namespaceNum": 0,
-   "ConstructorNumber": 0
+   "ConstructorNumber": 0,
+   "IndentifierLengthFrequency": {
+    "4": 0,
+    "7": 0,
+    "3": 0,
+    "6": 0,
+    "5": 45
+   }
   }
  }
 ]

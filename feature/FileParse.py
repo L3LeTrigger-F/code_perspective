@@ -173,14 +173,15 @@ class FileParser():
         return len(comment) / codeLength
 # 计算函数的平均值和标准差
     def calculateFunctionInfo(self):
+        functionNumber=0
         if self.listener.functionNumber == 0:
             return None
         functionLength = []
         for function in self.listener.functionList:
+            functionNumber+=1
             functionLength.append(function['functionEndLine'] - function['functionStartLine'] + 1)
-            #self.funcLength.append(function['functionEndLine'] - function['functionStartLine'] + 1)
         #return np.mean(functionLength),np.std(functionLength)
-        return functionLength
+        return functionLength,functionNumber
 #变量定义的位置
     def calculateVariableLocationVariance(self):
         if self.listener.functionNumber == 0:
@@ -201,7 +202,7 @@ class FileParser():
 #变量命名词汇
     def analyseEnglishLevel(self, wordList):
         if len(wordList) == 0:
-            return 0,0
+            return 0,0,0
         with open('./WordLevel.json') as fp:
             englishDict = json.load(fp)
         englishScore = 0
@@ -217,7 +218,7 @@ class FileParser():
                 english_info[word]+=1
         self.authorinfo['englishScore']+=englishScore
         self.authorinfo['englishUsageTime']+=englishUsageTime
-        return englishScore / englishUsageTime if englishUsageTime != 0 else 0,english_info
+        return englishScore / englishUsageTime if englishUsageTime != 0 else 0,english_info,englishUsageTime
 # 动态还是静态数组
     def calculateArray(self,file):
         static_rule='(\S+)(\s+)(\S+)\[(.*?)\]'
@@ -271,7 +272,7 @@ class FileParser():
     def calculateEnglishLevelAndNormalNamingRate(self):
         identifierList = self.listener.identifierList
         if len(identifierList) == 0:
-            return 0, 0,0,0
+            return 0, 0,0,0,0
         normalIdentifierNumber = 0
         cammelIdentifierNumber = 0
         underScoreIdentifierNumber = 0
@@ -293,15 +294,16 @@ class FileParser():
             else:
                 normalIdentifierNumber+=1
 
-        englishLevel,english_info = self.analyseEnglishLevel(wordList)
-        return englishLevel,english_info,cammelIdentifierNumber,underScoreIdentifierNumber
+        englishLevel,english_info,english_number = self.analyseEnglishLevel(wordList)
+        return englishLevel,english_info,english_number,cammelIdentifierNumber,underScoreIdentifierNumber
     # 匿名函数
     def calculateLambdaFunctionNumber(self):
-        if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber == 0:
-            return None
+        #if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.lambdaFunctionNumber == 0:
+         #   return 0
         #self.authorinfo['lambdaNumber']+=self.listener.lambdaFunctionNumber
         #return self.listener.lambdaFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
         return self.listener.lambdaFunctionNumber
+        '''
     #异常,这里没有做改变，因为C++的异常处理都挺细致的
     def calculateIninlineFunctionNumber(self):
         if self.listener.pointerFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber == 0:
@@ -333,10 +335,9 @@ class FileParser():
         self.authorinfo['ExternNumber'] += self.listener.externFunctionNumber
         return self.listener.externFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
     def calculatePointerFunctionNumber(self):
-        if self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber== 0:
-            return None
+        #if self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber== 0:
+         #   return None
         self.authorinfo['PointerFunc'] += self.listener.pointerFunctionNumber
-        #return self.authorinfo['PointerFunc']
         #return self.listener.pointerFunctionNumber / (self.listener.lambdaFunctionNumber + self.listener.functionNumber+self.listener.pointerFunctionNumber)
         return self.listener.pointerFunctionNumber
     def calculatePointerVariable(self):
@@ -346,6 +347,7 @@ class FileParser():
         #self.authorinfo['PointerVar']+=self.listener.pointervarNumber
         #return self.authorinfo['PointerVar']
         #return self.listener.pointervarNumber/self.listener.identifierNumber
+    '''
     def calculateMemoryRecall(self,tokens):
         newNumber=0
         deleteNumber=0
@@ -393,21 +395,6 @@ class FileParser():
         if keyToken==0:
             return None
         return keyToken,keyword_dict
-    '''
-    def calculateIDecrement(self,file):
-        ope_tuple1=0
-        ope_tuple2=0
-        ope_tuple3=0
-        
-        for line in file:
-            ope_tuple1+=len(re.findall(r'(\+\+)|(--)', str(line)))
-            ope_tuple2+=len(re.findall(r'(\+=1)|(-=1)', str(line)))
-            if re.search(r'(\w+=\w+\+1)',str(line))!=None:
-                s1=|(\w+=\w+-1)
-            ope_tuple3+=len(re.findall(r'(\w=\w+\+1)|(\w+=\w+-1)', str(line)))
-        return (ope_tuple1,ope_tuple2,ope_tuple3)
-        '''
-    #def calculateMemoryAllocation(self,file):
 
     def calculateLayout(self,file,tokenLength):
         tab_rule='\t'
@@ -456,17 +443,35 @@ class FileParser():
         #return tab_num/tokenLength, white_space_num/tokenLength,white_line_num/tokenLength,(tab_num+white_space_num)/(tokenLength-tab_num-white_space_num),new_line_cnt/total_cnt,tabsLeadLines
     def calculateAvgLineLength(self,file):
         sum_length_list = []
+        sum_length=0
         for line in file:
             sum_length_list.append(len(line))
+            sum_length+=1
         for num in range(len(sum_length_list)):
             new_cha=str(sum_length_list[num])
             sum_length_list[num]=new_cha
         sum_length_dict=dict.fromkeys(sum_length_list,0)
         for word in sum_length_list:
             sum_length_dict[word]+=1
+        
         #return np.mean(sum_length_list),np.std(sum_length_list)
-        return sum_length_dict
-    
+        return sum_length_dict,sum_length
+    def calculateIdentifierLength(self):
+        llen_list=[]
+        for identity in self.listener.identifierList:
+            if len(identity)>=0 and len(identity)<=9:
+                llen_list.append(chr(len(identity)+48))
+            else:
+                llen_list.append(str(len(identity)))
+        llen_dict=dict.fromkeys(llen_list,0)
+        for num in llen_list:
+            if len(identity)>=0 and len(identity)<=9:
+                llen_dict[chr(len(identity)+48)]+=1
+            else:
+                llen_dict[str(len(identity))]+=1
+        return llen_dict
+
+
     def calculateKeyword(self,tokens,characterNum):
         sum_keyword = 0
         keyword_dict={'do':0, 'if':0, 'else':0,'switch':0, 'for':0, 'while':0}
@@ -527,7 +532,7 @@ class FileParser():
         #return np.mean(sum_params),np.std(sum_params)
         return sum_params,params_info
     def calculateAbnormal(self):
-        return {"throw":self.listener.throwNumber,"try":self.listener.tryNumber,"exception":self.listener.exceptionNumber}
+        return {"throw":self.listener.throwNumber,"try":self.listener.tryNumber,"exception":self.listener.exceptionNumber},self.listener.throwNumber+self.listener.tryNumber+self.listener.exceptionNumber
     def calculatelocal(self):
         nums=0
         nums_info={}
@@ -642,7 +647,7 @@ class FileParser():
         characterNum=self.calculateCharacterNum(fileData)
         if characterNum==0:
             return None
-        author_info["CharacterNum"]=characterNum
+        author_info["FileLength"]=characterNum
         #token集合和token比率 
         author_info["token"],author_info["TokenNumber"]=self.calculateTokenRate(fileData,characterNum)
         #词频
@@ -665,16 +670,20 @@ class FileParser():
         #权限符数量
         author_info["AccessControlNumber"]=self.listener.accessnum
         #平均行长度,方差
-        author_info["LineLength"]=self.calculateAvgLineLength(fileData)
+        author_info["LineLength"],author_info["FileLineNumber"]=self.calculateAvgLineLength(fileData)
         #平均函数长度，方差
-        author_info["FunctionLength"]=self.calculateFunctionInfo()
+        author_info["FunctionLength"],author_info["FunctionNumber"]=self.calculateFunctionInfo()
         #平均参数个数，方差
-        author_info["Params"],author_info["ParamsDictInfo"]=self.calculateAvgParams()
+        author_info["Parameters"],author_info["ParamsDictInfo"]=self.calculateAvgParams()
         #局部变量的位置
         author_info["localVariableVarience"] = self.calculateVariableLocationVariance()
         #英语水平和命名水平 有问题
-        author_info["englishLevel"], author_info["english_info"],author_info["cammelIdentifierNumber"],author_info["underScoreIdentifierNumber"] = self.calculateEnglishLevelAndNormalNamingRate()
+        author_info["englishLevel"], author_info["english_info"],author_info["EnglishNumber"],author_info["cammelIdentifierNumber"],author_info["underScoreIdentifierNumber"] = self.calculateEnglishLevelAndNormalNamingRate()
         #指针函数占所有函数比例
+                #匿名函数比例
+        author_info["anonymousFunctionNumber"]=self.calculateLambdaFunctionNumber()
+        print(author_info["anonymousFunctionNumber"])
+        #函数个数
         '''
         author_info["pointerFunction"]=self.calculatePointerFunctionNumber()
         print(author_info["pointerFunction"])
@@ -687,8 +696,7 @@ class FileParser():
         #外部函数占所有函数比例
         author_info["externFunction"]=self.extractExternFunction(fileData)
 
-        #匿名函数比例
-        author_info["lambdaFunction"]=self.calculateLambdaFunctionNumber()
+
 
                 #指针调用水平（需要改）
         author_info["pointercall"]=self.calculatePointerVariable()
@@ -712,10 +720,11 @@ class FileParser():
         #局部变量
         author_info["localVariable"],author_info["localVariable_Info"]=self.calculatelocal()
 
-        author_info["abnormalInfo"]=self.calculateAbnormal()
+        author_info["abnormalInfo"],author_info["abnormalNumber"]=self.calculateAbnormal()
 
         author_info["namespaceNum"]=self.listener.namespaceNum
         author_info["ConstructorNumber"]=self.listener.Constructor
+        author_info["IndentifierLengthFrequency"]=self.calculateIdentifierLength()
         #   
         #递增方式
         #author_info['IDecrement']=self.calculateIDecrement(fileData)
