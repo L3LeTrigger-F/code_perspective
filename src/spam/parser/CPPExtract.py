@@ -1,3 +1,4 @@
+from os import access
 from .CPP14Parser import CPP14Parser
 from .CPP14ParserListener import CPP14ParserListener
 from .CPP14ParserVisitor import CPP14ParserVisitor
@@ -14,11 +15,12 @@ class CPP14Extract(CPP14ParserListener):
         self.templateFunctionNumber=0
         self.staticFunctionNumber=0
         self.externFunctionNumber=0
-        self.pointerFunctionNumber=0
+        self.pointerFunctonNumber=0
         #variable-based
         self.identifierList=[]
         self.identifierNumber=0
         self.pointervarNumber=0
+        self.globalNumber=0
         # class-based
         self.classNameList = []
         self.classNumber = 0
@@ -44,7 +46,14 @@ class CPP14Extract(CPP14ParserListener):
         self.space=0
         #Comment
         self.CommentList=[]
-
+        #namespace
+        self.namespaceNum=0
+        self.exceptionNumber=0
+        #access
+        self.accessnum=0
+        self.accessdict={"public":0,"protected":0,"private":0}
+        #constructor
+        self.Constructor=0
     #需要function_number classname_list classvaribale_list
     def enterFunctionDefinition(self, ctx:CPP14Parser.FunctionDefinitionContext):
         # capture function information
@@ -53,11 +62,10 @@ class CPP14Extract(CPP14ParserListener):
         functionEndLine = ctx.stop.line
         Pos=functionBody[functionBody.find('(')+1:functionBody.find(')')]
         posNum=0
-        if re.match(r'\s+',Pos)!=None:
+        if re.match(r'\s*\S',Pos)!=None:
             posNum=len(re.findall(r',',Pos))+1
         self.functionList.append(
             {
-                #'functionName': functionName,
                 'functionBody': functionBody,
                 'functionStartLine': functionStartLine,
                 'functionEndLine': functionEndLine,
@@ -80,7 +88,6 @@ class CPP14Extract(CPP14ParserListener):
         self.identifierList.append(identifiername)
         self.identifierNumber+=1
         return super().enterIdExpression(ctx)
-    #定义在函数外怎么办？
     def enterFunctionSpecifier(self, ctx:CPP14Parser.FunctionSpecifierContext):
         functionSpecifierName = ctx.getText()
         functionCallLine = ctx.start.line
@@ -110,9 +117,9 @@ class CPP14Extract(CPP14ParserListener):
             declaratorName=declaratorName[:declaratorName.find("(")]
         if declaratorName.find("[")!=-1:
             declaratorName=declaratorName[:declaratorName.find("[")]
-        rules_pointer = r'(.*?) \(\*(.*?)\)'  # 函数指针
-        if re.findall(rules_pointer, declaratorName) != []:
-            self.pointerFunctionNumber += 1
+        #rules_pointer = r'(.*?) \(\*(.*?)\)'  # 函数指针
+        #if re.findall(rules_pointer, declaratorName) != []:
+         #   self.pointerFunctionNumber += 1
         if len(self.functionList) != 0:
             if self.functionList[-1]['functionEndLine'] > declaratorline and self.functionList[-1]['functionStartLine']<declaratorline:
                 self.functionList[-1]['localVariableList'].append(
@@ -121,6 +128,8 @@ class CPP14Extract(CPP14ParserListener):
                         'Line': declaratorline
                     }
                 )
+            else:
+                self.globalNumber+=1
         self.identifierList.append(declaratorName)
         self.identifierNumber+=1
         return super().enterDeclarator(ctx)
@@ -144,3 +153,18 @@ class CPP14Extract(CPP14ParserListener):
     def enterDeleteExpression(self, ctx:CPP14Parser.DeleteExpressionContext):
         self.deleteNumber+=1
         return super().enterDeleteExpression(ctx)
+    def enterNamespaceDefinition(self, ctx: CPP14Parser.NamespaceDefinitionContext):
+        self.namespaceNum+=1
+        return super().enterNamespaceDefinition(ctx)
+    def enterAccessSpecifier(self, ctx: CPP14Parser.AccessSpecifierContext):
+        access_text=ctx.getText()
+        if access_text.find("public")!=-1:
+            self.accessdict["public"]+=1
+        elif access_text.find("protected")!=-1:
+            self.accessdict["protected"]+=1
+        elif access_text.find("private")!=-1:
+            self.accessdict["private"]+=1
+        return super().enterAccessSpecifier(ctx)
+    def enterConstructorInitializer(self, ctx: CPP14Parser.ConstructorInitializerContext):
+        self.Constructor+=1
+        return super().enterConstructorInitializer(ctx)

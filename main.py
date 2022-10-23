@@ -1,3 +1,4 @@
+from calendar import c
 from feature import FileParse
 import os
 import csv
@@ -5,7 +6,9 @@ import re
 import time
 from feature import AllFeatures
 import json
+import tqdm
 def main():
+    #存储全部信息
     authorinfo = {
         'newUsageNumber': 0,
         'oldUsageNumber': 0,
@@ -36,13 +39,11 @@ def main():
         'normalNumber':0,
         'llen':0
     }
-    #Datadir为当前存放数据集的文件夹名称
-    Datadir = './resources'
+    #Datadir为当前存放数据集的文件夹名称s
+    #Datadir = '../MaliciousCode/authors'
+    Datadir='/home/codedataset/CodePerspective-cpp/data1'
     file_error='data_error.txt'
-    fr=open('./data_err.csv','w',encoding='utf-8')
-    #file_name="five_data.csv"
-    #f=open(file_name,'r',encoding="utf-8")
-    #csv_writer = csv.writer(f)
+    fr=open(file_error,'w',encoding='utf-8')
     '''
     f=open('./five_data.csv', 'w', encoding='utf-8')
     csv_writer = csv.writer(f)
@@ -55,40 +56,63 @@ def main():
     csv_writer_2.writerow(["name", "openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"])
     fr=open('./data_err.csv','w',encoding='utf-8')
     '''
+
+    run_dirs=[]
+    for dirs in os.listdir('./data'):
+        run_dirs.append(dirs)
     for dir in os.listdir(Datadir):
+        if dir in run_dirs:
+            print(dir)
+            #continue
+                #Author为作者名称
         Author = dir
+        paths="./data/"+dir+"/"
+        if not os.path.exists(paths):
+            os.makedirs(paths)
         content = []
-        #Author为作者名称，在之前Java的数据集中，数据保存形式为以作者命名的文件夹下包含作者的代码
+        #大五人格信息，现在暂不考虑
         value_info={
         'openness':0,
         'conscientiousness':0,
         'extroversion':0,
         'agreeableness':0,
         'neuroticism':0
-    }
+        }
         ll=0
         file_list = []
+        #一种读取逻辑
         for dirpath, dirname, files in os.walk(Datadir + '/' + dir):
-            print(dirpath)
-            for file in files:
-                forbidfile=r"csv"
-                if re.findall(forbidfile,file)!=[]:
-                    continue
-                ll+=1
-                file_path = os.path.join(dirpath, file)
-                if "\\" in file_path:
-                    file_path = file_path.replace('\\', '/')
-                file_list.append(file_path)
+            for dirs in dirname:
+                if dirs=='C++':
+                    for dirpaths,dirnames,filess in os.walk(Datadir+'/'+dir+'/'+dirs):
+                        for fi in filess:
+                            file_path = os.path.join(dirpath+'/'+dirs, fi)
+                            if "\\" in file_path:
+                                file_path = file_path.replace('\\', '/')
+                            file_list.append(file_path)
+        #另一种读取逻辑
+            #for file in files:
+             #   forbidfile=r"csv"
+              #  if re.findall(forbidfile,file)!=[]:
+               #     continue
+                #ll+=1
+                #file_path = os.path.join(dirpath, file)
+                #if "\\" in file_path:
+                 #   file_path = file_path.replace('\\', '/')
+                #file_list.append(file_path)
         st_all=time.time()
-        #print(file_list)
+        author_info=[]
         for file in file_list:
             try:
-                start_time=time.time()
                 parser = FileParse.FileParser()
-                print(file)
+                print("---"+file+"---")
                 author_info_1=parser.parse(file)
+                file_info={"PersonName":Author,"PersonPath":file,"FileFeatures":author_info_1}
+                author_info.append(file_info)
+                #print(author_info_1)
                 #author_info_1['file']=file
-                content.append(author_info_1)
+                #content.append(author_info_1)
+                #deal_name=file[file.find("C++/")+4:file.find(".cpp")]ss
                 #csv_writer_2.writerow([file,openn,consc,extro,agree,neuro])
                 #f2.flush()
                 #if openn!=None:
@@ -109,10 +133,9 @@ def main():
                 fr = open(file_error, 'w', encoding='utf-8')
                 fr.write(file)
                 fr.flush()
-        with open(Author+'.json',mode='w',encoding='utf-8') as f:
-            for each_dict in content:
-                f.write(json.dumps(each_dict)+'\n')
-        print("提取作者所有代码特征时间为：",time.time()-st_all)
+        dats=json.dumps(author_info,ensure_ascii=False,indent=1)
+        with open("./test_data/"+"cpp/"+Author+".json",'w',newline='\n',encoding='utf-8') as f:
+            f.write(dats)
         #authorinfo['llen']=ll
         #print([Author,value_info['openness']/float(ll),value_info['conscientiousness']/float(ll),value_info['extroversion']/float(ll),value_info['agreeableness']/float(ll),value_info['neuroticism']/float(ll)])
         #if ll!=0:
@@ -125,8 +148,6 @@ def main():
         #csv_writer_1.writerow([Author,openness,conscientiousness,extroversion,agreeableness,neuroticism])
         #f1.flush()
     fr.close()
-
+    print("finished!!!")
 if __name__ == '__main__':
     main()
-
-
